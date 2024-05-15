@@ -1,0 +1,30 @@
+package views
+
+templ CreateUser() {
+	@base() {
+		<form hx-post="/user">
+			<h4>join us!</h4>
+			<fieldset>
+				<label>
+					Email
+					<input
+						type="email"
+						name="email"
+						placeholder="Email"
+						required
+						autocomplete="email"
+					/>
+				</label>
+				<label>
+					Password
+					<input
+						required
+						name="password"
+						placeholder="password"
+					/>
+				</label>
+			</fieldset>
+			<button>register</button>
+		</form>
+	}
+}
