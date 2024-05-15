@@ -1,8 +1,8 @@
 package main
 
 import (
-	"net/http"
-
+	"github.com/KhaledAlorayir/go-htmx-thinge/common"
+	"github.com/KhaledAlorayir/go-htmx-thinge/handlers"
 	"github.com/KhaledAlorayir/go-htmx-thinge/views"
 	"github.com/labstack/echo/v4"
 )
@@ -13,14 +13,10 @@ type test struct {
 
 func main() {
 	e := echo.New()
+	userHandler := handlers.UserHandler{}
 
-	e.GET("/user/create-user", func(c echo.Context) error {
-		return views.CreateUser().Render(c.Request().Context(), c.Response())
-	})
-
-	e.POST("/user", func(c echo.Context) error {
-		return c.JSON(http.StatusOK, test{Message: "yay"})
-	})
+	e.GET(common.CREATE_USER_ROUTE, handlers.RenderHandler(views.CreateUser()))
+	e.POST(common.USER_PATH, userHandler.CreateUserAction)
 
 	e.Logger.Fatal(e.Start(":3000"))
 }

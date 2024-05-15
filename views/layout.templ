@@ -1,5 +1,9 @@
 package views
 
+import (
+	"github.com/KhaledAlorayir/go-htmx-thinge/common"
+)
+
 templ base() {
 	<html lang="en">
 		<head>
@@ -10,10 +14,11 @@ templ base() {
 				href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
 			/>
 			<script src="https://unpkg.com/htmx.org@1.9.12"></script>
+			<script src="https://unpkg.com/htmx.org@1.9.12/dist/ext/response-targets.js"></script>
 			<title>golang</title>
 		</head>
 		<body>
-			<main class="container">
+			<main class="container" hx-ext="response-targets">
 				@navbar()
 				{ children... }
 			</main>
@@ -27,7 +32,8 @@ templ navbar() {
 			<li><strong>Thinge</strong></li>
 		</ul>
 		<ul>
-			<li><a href="#">sss</a></li>
+			<li><a href="#">login</a></li>
+			<li><a href={ templ.URL(common.CREATE_USER_ROUTE) }>register</a></li>
 		</ul>
 	</nav>
 }
