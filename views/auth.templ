@@ -1,14 +1,8 @@
 package views
 
-templ ValidationErrors(errors []string) {
-	<ul>
-		for _, error := range errors {
-			<li style="color: red">{ error }</li>
-		}
-	</ul>
-}
+import "github.com/KhaledAlorayir/go-htmx-thinge/common"
 
-templ CreateUser() {
+templ CreateUserPage() {
 	@base() {
 		<form hx-post="/user" hx-target-400="#errors">
 			<h4>join us!</h4>
@@ -45,4 +39,11 @@ templ CreateUser() {
 			<button>register</button>
 		</form>
 	}
+}
+
+templ UserCreatedMessage() {
+	<div>
+		<p>welcome aboard!</p>
+		<a href={ templ.URL(common.AUTH_PATH) }>login from here!</a>
+	</div>
 }

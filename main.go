@@ -3,19 +3,20 @@ package main
 import (
 	"github.com/KhaledAlorayir/go-htmx-thinge/common"
 	"github.com/KhaledAlorayir/go-htmx-thinge/handlers"
+	"github.com/KhaledAlorayir/go-htmx-thinge/repository"
 	"github.com/KhaledAlorayir/go-htmx-thinge/views"
 	"github.com/labstack/echo/v4"
 )
 
-type test struct {
-	Message string `json:"message"`
-}
-
 func main() {
 	e := echo.New()
-	userHandler := handlers.UserHandler{}
+	e.Debug = true
+	db := initDatabase()
+	repository := repository.NewRepository(db)
 
-	e.GET(common.CREATE_USER_ROUTE, handlers.RenderHandler(views.CreateUser()))
+	userHandler := handlers.NewUserHandler(repository)
+
+	e.GET(common.CREATE_USER_ROUTE, common.RenderHandler(views.CreateUserPage()))
 	e.POST(common.USER_PATH, userHandler.CreateUserAction)
 
 	e.Logger.Fatal(e.Start(":3000"))

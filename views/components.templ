@@ -3,3 +3,11 @@ package views
 templ Message(message string) {
 	<h3>{ message }</h3>
 }
+
+templ ValidationErrors(errors []string) {
+	<ul>
+		for _, error := range errors {
+			<li style="color: red">{ error }</li>
+		}
+	</ul>
+}

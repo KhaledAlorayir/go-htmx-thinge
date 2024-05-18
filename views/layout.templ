@@ -32,7 +32,7 @@ templ navbar() {
 			<li><strong>Thinge</strong></li>
 		</ul>
 		<ul>
-			<li><a href="#">login</a></li>
+			<li><a href={ templ.URL(common.AUTH_PATH) }>login</a></li>
 			<li><a href={ templ.URL(common.CREATE_USER_ROUTE) }>register</a></li>
 		</ul>
 	</nav>

@@ -5,14 +5,14 @@ import (
 	"github.com/go-ozzo/ozzo-validation/v4/is"
 )
 
-type createUserRequest struct {
+type CreateUserRequest struct {
 	Email    string
 	Username string
 	Password string
 }
 
-func NewCreateUserRequest(email string, username string, password string) (*createUserRequest, error) {
-	user := createUserRequest{Email: email, Username: username, Password: password}
+func NewCreateUserRequest(email string, username string, password string) (CreateUserRequest, error) {
+	user := CreateUserRequest{Email: email, Username: username, Password: password}
 
 	err := validation.ValidateStruct(
 		&user,
@@ -22,8 +22,8 @@ func NewCreateUserRequest(email string, username string, password string) (*crea
 	)
 
 	if err != nil {
-		return nil, err
+		return user, err
 	}
 
-	return &user, nil
+	return user, nil
 }
