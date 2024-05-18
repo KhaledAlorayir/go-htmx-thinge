@@ -3,8 +3,11 @@ package common
 import (
 	"net/http"
 	"strings"
+	"time"
 
+	"github.com/KhaledAlorayir/go-htmx-thinge/repository"
 	"github.com/a-h/templ"
+	"github.com/golang-jwt/jwt/v5"
 	"github.com/labstack/echo/v4"
 	"golang.org/x/crypto/bcrypt"
 )
@@ -32,4 +35,15 @@ func HashPassword(password string) (string, error) {
 func CheckPasswordHash(password, hash string) bool {
 	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
 	return err == nil
+}
+
+func GenerateJwt(user repository.User) (JWT, error) {
+	expiresAt := time.Now().Add(time.Hour * 2)
+
+	jwt, err := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
+		"sub": user.Id,
+		"exp": expiresAt.Unix(),
+	}).SignedString([]byte("secret"))
+
+	return JWT{Jwt: jwt, ExpiresAt: expiresAt}, err
 }

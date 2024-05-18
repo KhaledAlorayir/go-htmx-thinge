@@ -66,3 +66,33 @@ func (r Repository) CheckIfUsernameExists(value string) (bool, error) {
 func (r Repository) CheckIfEmailExists(value string) (bool, error) {
 	return r.checkIfRecordExists("users", "email", value)
 }
+
+func (r Repository) GetUserByEmail(value string) (*User, error) {
+	stat, err := r.db.Prepare("SELECT * FROM users u WHERE LOWER(email) = LOWER(?)")
+
+	if err != nil {
+		return nil, err
+	}
+
+	rows, err := stat.Query(value)
+
+	if err != nil {
+		return nil, err
+	}
+
+	exists := rows.Next()
+
+	if !exists {
+		return nil, nil
+	}
+
+	user := User{}
+
+	err = rows.Scan(&user.Id, &user.Username, &user.Email, &user.Password, &user.Created_at)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &user, nil
+}

@@ -4,7 +4,7 @@ import "github.com/KhaledAlorayir/go-htmx-thinge/common"
 
 templ CreateUserPage() {
 	@base() {
-		<form hx-post="/user" hx-target-400="#errors">
+		<form hx-post={ common.USER_PATH } hx-target-400="#errors">
 			<h4>join us!</h4>
 			<fieldset>
 				<label>
@@ -37,6 +37,36 @@ templ CreateUserPage() {
 			</fieldset>
 			<div id="errors"></div>
 			<button>register</button>
+		</form>
+	}
+}
+
+templ LoginPage() {
+	@base() {
+		<form hx-post={ common.AUTH_PATH } hx-target-400="#errors">
+			<h4>welcome back!</h4>
+			<fieldset>
+				<label>
+					Email
+					<input
+						name="email"
+						placeholder="Email"
+						required
+						autocomplete="email"
+						type="email"
+					/>
+				</label>
+				<label>
+					Password
+					<input
+						required
+						name="password"
+						placeholder="password"
+					/>
+				</label>
+			</fieldset>
+			<div id="errors"></div>
+			<button>login</button>
 		</form>
 	}
 }
