@@ -1,10 +1,13 @@
 package common
 
 import (
+	"context"
 	"net/http"
+	"strconv"
 	"strings"
 	"time"
 
+	"github.com/KhaledAlorayir/go-htmx-thinge/constants"
 	"github.com/KhaledAlorayir/go-htmx-thinge/repository"
 	"github.com/a-h/templ"
 	"github.com/golang-jwt/jwt/v5"
@@ -18,7 +21,14 @@ func FormatValidationErrors(errors error) []string {
 
 func Render(component templ.Component, context echo.Context, statusCode int) error {
 	context.Response().WriteHeader(statusCode)
-	return component.Render(context.Request().Context(), context.Response())
+	ctx := context.Request().Context()
+
+	return component.Render(ctx, context.Response())
+}
+
+func Redirect(path string, context echo.Context) error {
+	context.Response().Header().Set("HX-Redirect", "/")
+	return context.Redirect(200, "/")
 }
 
 func RenderHandler(component templ.Component) echo.HandlerFunc {
@@ -39,11 +49,33 @@ func CheckPasswordHash(password, hash string) bool {
 
 func GenerateJwt(user repository.User) (JWT, error) {
 	expiresAt := time.Now().Add(time.Hour * 2)
-
-	jwt, err := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"sub": user.Id,
-		"exp": expiresAt.Unix(),
-	}).SignedString([]byte("secret"))
+	claims := &jwtData{
+		Username: user.Username,
+		Email:    user.Email,
+		RegisteredClaims: jwt.RegisteredClaims{
+			Subject:   strconv.Itoa(user.Id),
+			ExpiresAt: jwt.NewNumericDate(expiresAt),
+		},
+	}
+	jwt, err := jwt.NewWithClaims(jwt.SigningMethodHS256, claims).SignedString([]byte("secret"))
 
 	return JWT{Jwt: jwt, ExpiresAt: expiresAt}, err
+}
+
+func ValidateJwt(token string) (jwtData, error) {
+	claims := &jwtData{}
+	_, err := jwt.ParseWithClaims(token, claims, func(t *jwt.Token) (interface{}, error) {
+		return []byte("secret"), nil
+	})
+
+	return *claims, err
+}
+
+func GetAuthData(context context.Context) AuthData {
+	data := context.Value(constants.CONTEXT_AUTH_DATA)
+
+	if data == nil {
+		return AuthData{IsAuthenticated: false}
+	}
+	return data.(AuthData)
 }

@@ -1,0 +1,9 @@
+package views
+
+import "github.com/KhaledAlorayir/go-htmx-thinge/common"
+
+templ HomePage() {
+	@base() {
+		<h1>welcome back! { common.GetAuthData(ctx).Username }</h1>
+	}
+}

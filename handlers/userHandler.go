@@ -20,7 +20,7 @@ func NewUserHandler(repository repository.Repository) userHandler {
 	}
 }
 
-func (h userHandler) CreateUserAction(c echo.Context) error {
+func (h userHandler) CreateUser(c echo.Context) error {
 	user, err := dtos.NewCreateUserRequest(c.FormValue("email"), c.FormValue("username"), c.FormValue("password"))
 
 	if err != nil {

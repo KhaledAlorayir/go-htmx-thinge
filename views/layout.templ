@@ -1,6 +1,7 @@
 package views
 
 import (
+	"github.com/KhaledAlorayir/go-htmx-thinge/constants"
 	"github.com/KhaledAlorayir/go-htmx-thinge/common"
 )
 
@@ -32,8 +33,12 @@ templ navbar() {
 			<li><strong>Thinge</strong></li>
 		</ul>
 		<ul>
-			<li><a href={ templ.URL(common.AUTH_PATH) }>login</a></li>
-			<li><a href={ templ.URL(common.CREATE_USER_ROUTE) }>register</a></li>
+			if common.GetAuthData(ctx).IsAuthenticated {
+				<li><button hx-post={ constants.LOGOUT_ROUTE }>logout</button></li>
+			} else {
+				<li><a href={ templ.URL(constants.AUTH_PATH) }>login</a></li>
+				<li><a href={ templ.URL(constants.CREATE_USER_ROUTE) }>register</a></li>
+			}
 		</ul>
 	</nav>
 }

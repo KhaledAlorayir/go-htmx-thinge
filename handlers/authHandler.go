@@ -2,8 +2,10 @@ package handlers
 
 import (
 	"net/http"
+	"time"
 
 	"github.com/KhaledAlorayir/go-htmx-thinge/common"
+	"github.com/KhaledAlorayir/go-htmx-thinge/constants"
 	"github.com/KhaledAlorayir/go-htmx-thinge/dtos"
 	"github.com/KhaledAlorayir/go-htmx-thinge/repository"
 	"github.com/KhaledAlorayir/go-htmx-thinge/views"
@@ -50,16 +52,29 @@ func (h authHandler) Login(c echo.Context) error {
 	}
 
 	setAuthCookie(c, jwt)
-	return common.Render(views.ValidationErrors([]string{"yayyy"}), c, http.StatusBadRequest)
+	return common.Redirect("/", c)
+}
 
+func (h authHandler) Logout(c echo.Context) error {
+	deleteAuthCookie(c)
+	return common.Redirect("/auth", c)
 }
 
 func setAuthCookie(context echo.Context, jwt common.JWT) {
 	cookie := new(http.Cookie)
-	cookie.Name = "auth_token"
+	cookie.Name = constants.AUTH_COOKIE_NAME
 	cookie.Value = jwt.Jwt
 	cookie.Expires = jwt.ExpiresAt
 	cookie.HttpOnly = true
 	cookie.Secure = true
+	context.SetCookie(cookie)
+}
+
+func deleteAuthCookie(context echo.Context) {
+	cookie := new(http.Cookie)
+	cookie.Name = constants.AUTH_COOKIE_NAME
+	cookie.Expires = time.Unix(0, 0)
+	cookie.Value = ""
+	cookie.Path = "/"
 	context.SetCookie(cookie)
 }
