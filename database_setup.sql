@@ -1,0 +1,147 @@
+-- DROP TABLE user_exercises;
+-- DROP TABLE exercises;
+-- DROP TABLE muscle_groups;
+-- DROP TABLE users;
+
+-- -- TABLES
+-- CREATE TABLE IF NOT EXISTS users (
+--     id INTEGER PRIMARY KEY AUTOINCREMENT,
+--     username TEXT NOT NULL UNIQUE,
+--     email TEXT NOT NULL UNIQUE,
+--     password TEXT NOT NULL,
+--     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+-- );
+
+-- CREATE TABLE IF NOT EXISTS muscle_groups (
+--     id INTEGER PRIMARY KEY AUTOINCREMENT,
+--     name TEXT NOT NULL UNIQUE,
+--     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+-- );
+
+-- CREATE TABLE IF NOT EXISTS exercises (
+--     id INTEGER PRIMARY KEY AUTOINCREMENT,
+--     name TEXT NOT NULL UNIQUE,
+--     muscle_group_id INTEGER NOT NULL,
+--     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+--     FOREIGN KEY (muscle_group_id) REFERENCES muscle_groups(id)
+-- );
+
+-- CREATE TABLE IF NOT EXISTS user_exercises (
+--     id INTEGER PRIMARY KEY AUTOINCREMENT,
+--     user_id INTEGER NOT NULL,
+--     exercise_id INTEGER NOT NULL,
+--     weight REAL NOT NULL,
+--     incline_level INTEGER,
+--     note TEXT,
+--     link TEXT,
+--     number_of_sets INTEGER,
+--     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+--     FOREIGN KEY (user_id) REFERENCES users(id),
+--     FOREIGN KEY (exercise_id) REFERENCES exercises(id)
+-- );
+
+-- -- SEED
+-- INSERT INTO users(username, email, password)
+-- VALUES('k4tg', 'jnonkh@gmail.com', '$2a$14$Su699MZLy1br4lg1ZhrkBOEfwYk9K6UC.b/FFYL/.yHa8GO4l/ArO');
+
+-- INSERT INTO muscle_groups (name) VALUES 
+-- ('Chest'),
+-- ('Back'),
+-- ('Legs'),
+-- ('Arms'),
+-- ('Shoulders'),
+-- ('Abs');
+
+-- INSERT INTO exercises (name, muscle_group_id) VALUES 
+-- ('Bench Press', (SELECT id FROM muscle_groups WHERE name = 'Chest')),
+-- ('Incline Bench Press', (SELECT id FROM muscle_groups WHERE name = 'Chest')),
+-- ('Decline Bench Press', (SELECT id FROM muscle_groups WHERE name = 'Chest')),
+-- ('Push-Up', (SELECT id FROM muscle_groups WHERE name = 'Chest')),
+-- ('Dumbbell Fly', (SELECT id FROM muscle_groups WHERE name = 'Chest')),
+-- ('Chest Dip', (SELECT id FROM muscle_groups WHERE name = 'Chest')),
+-- ('Cable Crossover', (SELECT id FROM muscle_groups WHERE name = 'Chest')),
+-- ('Pec Deck Machine', (SELECT id FROM muscle_groups WHERE name = 'Chest')),
+-- ('Chest Press Machine', (SELECT id FROM muscle_groups WHERE name = 'Chest')),
+
+-- ('Pull-Up', (SELECT id FROM muscle_groups WHERE name = 'Back')),
+-- ('Chin-Up', (SELECT id FROM muscle_groups WHERE name = 'Back')),
+-- ('Deadlift', (SELECT id FROM muscle_groups WHERE name = 'Back')),
+-- ('Bent Over Row', (SELECT id FROM muscle_groups WHERE name = 'Back')),
+-- ('One-Arm Dumbbell Row', (SELECT id FROM muscle_groups WHERE name = 'Back')),
+-- ('T-Bar Row', (SELECT id FROM muscle_groups WHERE name = 'Back')),
+-- ('Seated Row', (SELECT id FROM muscle_groups WHERE name = 'Back')),
+-- ('Lat Pulldown', (SELECT id FROM muscle_groups WHERE name = 'Back')),
+-- ('Straight-Arm Pulldown', (SELECT id FROM muscle_groups WHERE name = 'Back')),
+-- ('Face Pull (back)', (SELECT id FROM muscle_groups WHERE name = 'Back')),
+-- ('Reverse Fly', (SELECT id FROM muscle_groups WHERE name = 'Back')),
+
+-- ('Squat', (SELECT id FROM muscle_groups WHERE name = 'Legs')),
+-- ('Front Squat', (SELECT id FROM muscle_groups WHERE name = 'Legs')),
+-- ('Overhead Squat', (SELECT id FROM muscle_groups WHERE name = 'Legs')),
+-- ('Lunge', (SELECT id FROM muscle_groups WHERE name = 'Legs')),
+-- ('Leg Press', (SELECT id FROM muscle_groups WHERE name = 'Legs')),
+-- ('Leg Extension', (SELECT id FROM muscle_groups WHERE name = 'Legs')),
+-- ('Leg Curl', (SELECT id FROM muscle_groups WHERE name = 'Legs')),
+-- ('Calf Raise', (SELECT id FROM muscle_groups WHERE name = 'Legs')),
+-- ('Standing Calf Raise', (SELECT id FROM muscle_groups WHERE name = 'Legs')),
+-- ('Seated Calf Raise', (SELECT id FROM muscle_groups WHERE name = 'Legs')),
+-- ('Hip Thrust', (SELECT id FROM muscle_groups WHERE name = 'Legs')),
+-- ('Glute Bridge', (SELECT id FROM muscle_groups WHERE name = 'Legs')),
+-- ('Bulgarian Split Squat', (SELECT id FROM muscle_groups WHERE name = 'Legs')),
+-- ('Step-Up', (SELECT id FROM muscle_groups WHERE name = 'Legs')),
+-- ('Hack Squat', (SELECT id FROM muscle_groups WHERE name = 'Legs')),
+-- ('Sumo Squat', (SELECT id FROM muscle_groups WHERE name = 'Legs')),
+-- ('Goblet Squat', (SELECT id FROM muscle_groups WHERE name = 'Legs')),
+-- ('Romanian Deadlift', (SELECT id FROM muscle_groups WHERE name = 'Legs')),
+-- ('Good Morning', (SELECT id FROM muscle_groups WHERE name = 'Legs')),
+
+-- ('Bicep Curl', (SELECT id FROM muscle_groups WHERE name = 'Arms')),
+-- ('Incline Curl', (SELECT id FROM muscle_groups WHERE name = 'Arms')),
+-- ('Barbell Curl', (SELECT id FROM muscle_groups WHERE name = 'Arms')),
+-- ('Hammer Curl', (SELECT id FROM muscle_groups WHERE name = 'Arms')),
+-- ('Preacher Curl', (SELECT id FROM muscle_groups WHERE name = 'Arms')),
+-- ('Spider Curl', (SELECT id FROM muscle_groups WHERE name = 'Arms')),
+-- ('Concentration Curl', (SELECT id FROM muscle_groups WHERE name = 'Arms')),
+-- ('Cable Curl', (SELECT id FROM muscle_groups WHERE name = 'Arms')),
+-- ('Reverse Curl', (SELECT id FROM muscle_groups WHERE name = 'Arms')),
+-- ('Zottman Curl', (SELECT id FROM muscle_groups WHERE name = 'Arms')),
+-- ('Tricep Dip', (SELECT id FROM muscle_groups WHERE name = 'Arms')),
+-- ('Tricep Extension', (SELECT id FROM muscle_groups WHERE name = 'Arms')),
+-- ('Skullcrusher', (SELECT id FROM muscle_groups WHERE name = 'Arms')),
+-- ('Tricep Pushdown', (SELECT id FROM muscle_groups WHERE name = 'Arms')),
+-- ('Overhead Tricep Extension', (SELECT id FROM muscle_groups WHERE name = 'Arms')),
+-- ('Close-Grip Bench Press', (SELECT id FROM muscle_groups WHERE name = 'Arms')),
+-- ('Kickback', (SELECT id FROM muscle_groups WHERE name = 'Arms')),
+-- ('Dumbbell Tricep Extension', (SELECT id FROM muscle_groups WHERE name = 'Arms')),
+
+-- ('Shoulder Press', (SELECT id FROM muscle_groups WHERE name = 'Shoulders')),
+-- ('Dumbbell Shoulder Press', (SELECT id FROM muscle_groups WHERE name = 'Shoulders')),
+-- ('Arnold Press', (SELECT id FROM muscle_groups WHERE name = 'Shoulders')),
+-- ('Lateral Raise', (SELECT id FROM muscle_groups WHERE name = 'Shoulders')),
+-- ('Front Raise', (SELECT id FROM muscle_groups WHERE name = 'Shoulders')),
+-- ('Rear Delt Fly', (SELECT id FROM muscle_groups WHERE name = 'Shoulders')),
+-- ('Cable Lateral Raise', (SELECT id FROM muscle_groups WHERE name = 'Shoulders')),
+-- ('Face Pull (shoulders)', (SELECT id FROM muscle_groups WHERE name = 'Shoulders')),
+-- ('Upright Row', (SELECT id FROM muscle_groups WHERE name = 'Shoulders')),
+-- ('Shrug', (SELECT id FROM muscle_groups WHERE name = 'Shoulders')),
+-- ('Barbell Shrug', (SELECT id FROM muscle_groups WHERE name = 'Shoulders')),
+-- ('Dumbbell Shrug', (SELECT id FROM muscle_groups WHERE name = 'Shoulders')),
+
+-- ('Crunch', (SELECT id FROM muscle_groups WHERE name = 'Abs')),
+-- ('Plank', (SELECT id FROM muscle_groups WHERE name = 'Abs')),
+-- ('Sit-Up', (SELECT id FROM muscle_groups WHERE name = 'Abs')),
+-- ('Leg Raise', (SELECT id FROM muscle_groups WHERE name = 'Abs')),
+-- ('Russian Twist', (SELECT id FROM muscle_groups WHERE name = 'Abs')),
+-- ('Bicycle Crunch', (SELECT id FROM muscle_groups WHERE name = 'Abs')),
+-- ('Hanging Leg Raise', (SELECT id FROM muscle_groups WHERE name = 'Abs')),
+-- ('V-Up', (SELECT id FROM muscle_groups WHERE name = 'Abs')),
+-- ('Mountain Climber', (SELECT id FROM muscle_groups WHERE name = 'Abs')),
+-- ('Flutter Kick', (SELECT id FROM muscle_groups WHERE name = 'Abs')),
+-- ('Toe Touch', (SELECT id FROM muscle_groups WHERE name = 'Abs')),
+-- ('Side Plank', (SELECT id FROM muscle_groups WHERE name = 'Abs')),
+-- ('Cable Crunch', (SELECT id FROM muscle_groups WHERE name = 'Abs')),
+-- ('Reverse Crunch', (SELECT id FROM muscle_groups WHERE name = 'Abs')),
+-- ('Dead Bug', (SELECT id FROM muscle_groups WHERE name = 'Abs')),
+-- ('Windshield Wiper', (SELECT id FROM muscle_groups WHERE name = 'Abs'));

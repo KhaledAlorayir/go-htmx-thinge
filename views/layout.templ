@@ -6,6 +6,7 @@ import (
 )
 
 templ base() {
+	<!DOCTYPE html>
 	<html lang="en">
 		<head>
 			<meta charset="UTF-8"/>
@@ -16,10 +17,11 @@ templ base() {
 			/>
 			<script src="https://unpkg.com/htmx.org@1.9.12"></script>
 			<script src="https://unpkg.com/htmx.org@1.9.12/dist/ext/response-targets.js"></script>
+			<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 			<title>golang</title>
 		</head>
 		<body>
-			<main class="container" hx-ext="response-targets">
+			<main class="container" hx-ext="response-targets" x-data="{addExerciseModalIsOpen: false}">
 				@navbar()
 				{ children... }
 			</main>
@@ -34,6 +36,7 @@ templ navbar() {
 		</ul>
 		<ul>
 			if common.GetAuthData(ctx).IsAuthenticated {
+				<li><button @click="addExerciseModalIsOpen = true">add exercise</button></li>
 				<li><button hx-post={ constants.LOGOUT_ROUTE }>logout</button></li>
 			} else {
 				<li><a href={ templ.URL(constants.AUTH_PATH) }>login</a></li>

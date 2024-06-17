@@ -3,6 +3,7 @@ package main
 import (
 	"database/sql"
 	"log"
+	"os"
 
 	_ "github.com/mattn/go-sqlite3"
 )
@@ -14,17 +15,17 @@ func initDatabase() *sql.DB {
 		log.Fatal(err)
 	}
 
-	_, err = db.Exec(`CREATE TABLE IF NOT EXISTS users (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    username TEXT NOT NULL UNIQUE,
-    email TEXT NOT NULL UNIQUE,
-    password TEXT NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-`)
+	script, err := os.ReadFile("./database_setup.sql")
 
 	if err != nil {
 		log.Fatal(err)
 	}
+
+	_, err = db.Exec(string(script))
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	return db
 }

@@ -1,9 +1,95 @@
 package views
 
 import "github.com/KhaledAlorayir/go-htmx-thinge/common"
+import "github.com/KhaledAlorayir/go-htmx-thinge/dtos"
+import "strconv"
 
-templ HomePage() {
+templ HomePage(lookup []dtos.MuscleGroupLookupResponse) {
 	@base() {
-		<h1>welcome back! { common.GetAuthData(ctx).Username }</h1>
+		<h4>welcome back! { common.GetAuthData(ctx).Username }</h4>
+		@addExerciseModal(lookup)
 	}
+}
+
+templ addExerciseModal(lookup []dtos.MuscleGroupLookupResponse) {
+	<dialog :open="addExerciseModalIsOpen">
+		<article>
+			<header>
+				<button aria-label="Close" rel="prev" @click="addExerciseModalIsOpen = false"></button>
+				<p>
+					<strong>add exercise!</strong>
+				</p>
+			</header>
+			<form
+				x-data={ common.ToJSON(map[string]any{"data": lookup, "selectedGroupId": lookup[0].Id}) }
+			>
+				<fieldset>
+					<label>
+						muscle group *
+						<select x-model="selectedGroupId" aria-label="Select your muscle group..." required>
+							for _,group := range lookup {
+								<option value={ strconv.Itoa(group.Id) }>{ group.Label }</option>
+							}
+						</select>
+					</label>
+					<label>
+						exercise *
+						<select name="exerciseId" aria-label="Select your exercise..." required>
+							<template x-for="exercise in data.find(({id}) => id === Number(selectedGroupId)).exercises">
+								<option x-text="exercise.label" :value="exercise.label.id"></option>
+							</template>
+						</select>
+					</label>
+					<label>
+						weight *
+						<input
+							required
+							name="weight"
+							placeholder="weight"
+							type="number"
+							min="0"
+						/>
+					</label>
+					<label>
+						incline Level
+						<input
+							name="inclineLevel"
+							placeholder="incline Level"
+							type="number"
+							min="0"
+							max="100"
+						/>
+					</label>
+					<label>
+						number of sets
+						<input
+							name="sets"
+							placeholder="number of sets"
+							type="number"
+							min="1"
+							max="20"
+						/>
+					</label>
+					<label>
+						link
+						<input
+							name="link"
+							placeholder="link.."
+							type="url"
+						/>
+					</label>
+					<label>
+						notes
+						<textarea
+							name="note"
+							placeholder="notes..."
+							style="resize:none"
+						></textarea>
+					</label>
+				</fieldset>
+				<div id="errors"></div>
+				<button style="width: 100%">create</button>
+			</form>
+		</article>
+	</dialog>
 }

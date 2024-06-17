@@ -2,6 +2,7 @@ package common
 
 import (
 	"context"
+	"encoding/json"
 	"net/http"
 	"strconv"
 	"strings"
@@ -21,9 +22,7 @@ func FormatValidationErrors(errors error) []string {
 
 func Render(component templ.Component, context echo.Context, statusCode int) error {
 	context.Response().WriteHeader(statusCode)
-	ctx := context.Request().Context()
-
-	return component.Render(ctx, context.Response())
+	return component.Render(context.Request().Context(), context.Response())
 }
 
 func Redirect(path string, context echo.Context) error {
@@ -78,4 +77,9 @@ func GetAuthData(context context.Context) AuthData {
 		return AuthData{IsAuthenticated: false}
 	}
 	return data.(AuthData)
+}
+
+func ToJSON(v any) string {
+	b, _ := json.Marshal(v)
+	return string(b)
 }

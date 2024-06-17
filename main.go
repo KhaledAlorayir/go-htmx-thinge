@@ -21,6 +21,7 @@ func main() {
 
 	userHandler := handlers.NewUserHandler(repository)
 	authHandler := handlers.NewAuthHandler(repository)
+	exerciseHandler := handlers.NewExerciseHandler(repository)
 
 	publicOnly.GET(constants.CREATE_USER_ROUTE, common.RenderHandler(views.CreateUserPage()))
 	publicOnly.POST(constants.USER_PATH, userHandler.CreateUser)
@@ -29,6 +30,8 @@ func main() {
 	publicOnly.POST(constants.AUTH_PATH, authHandler.Login)
 	protected.POST(constants.LOGOUT_ROUTE, authHandler.Logout)
 
-	protected.GET("/", common.RenderHandler(views.HomePage()))
+	protected.GET("/", exerciseHandler.HomePage)
+
 	e.Logger.Fatal(e.Start(":3000"))
+
 }
